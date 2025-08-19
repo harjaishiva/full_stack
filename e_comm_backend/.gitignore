@@ -1,5 +1,5 @@
 #NODE
 
 node_modules/
-env
+.env
 logs/

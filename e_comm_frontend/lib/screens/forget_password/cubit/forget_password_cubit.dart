@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:e_commerce_app/screens/api_urls/urls.dart';
 import "package:http/http.dart" as http;
 
 part 'forget_password_state.dart';
@@ -10,7 +11,8 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   ForgetPasswordCubit() : super(ForgetPasswordInitial());
 
   reqOtp(String email) async {
-    final url = Uri.parse("http://10.0.2.2:5000/api/sign/requestOtp");
+    String urlStr = baseUrl+requestotp;
+    final url = Uri.parse(urlStr);
 
     Map map = {"email": email};
 
@@ -31,7 +33,8 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   }
 
   verifyOtp(String email,String otp) async {
-    final url = Uri.parse("http://10.0.2.2:5000/api/sign/verifyOtp");
+    String urlStr = baseUrl+verifyotp;
+    final url = Uri.parse(urlStr);
 
     Map map = {"email": email, "otp":otp};
 
@@ -52,7 +55,8 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   }
 
   updatePass(String email,String pass) async {
-    final url = Uri.parse("http://10.0.2.2:5000/api/sign/updatePassword");
+    String urlStr = baseUrl+updatePassword;
+    final url = Uri.parse(urlStr);
 
     Map map = {"email": email, "pass":pass};
 

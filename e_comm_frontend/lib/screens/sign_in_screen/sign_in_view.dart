@@ -46,6 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
           SharedPreferencesClass.pref.setString(userId,state.data['userId'].toString());
           SharedPreferencesClass.pref.setString(name,state.data['name']);
           SharedPreferencesClass.pref.setString(email,state.data['email']);
+          SharedPreferencesClass.pref.setString(image,state.data['image']);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>BlocProvider(create: (context)=>HomeScreenCubit(),child:const HomeScreen())), (route) => false);
         }
         else{

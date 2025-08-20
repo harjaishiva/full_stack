@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:e_commerce_app/screens/api_urls/urls.dart';
 import 'package:e_commerce_app/screens/orders_screen/model/orders_model.dart';
 import 'package:e_commerce_app/utils/constants/methods.dart';
 import 'package:e_commerce_app/utils/constants/variables.dart';
@@ -25,9 +26,9 @@ class OrdersCubit extends Cubit<OrdersState> {
   }
 
   getCart() async {
-
     final id = SharedPreferencesClass.pref.getString(userId);
-    final url = Uri.parse("http://10.0.2.2:5000/api/sign/getCart/$id");
+    String urlStr = "$baseUrl$getcart/$id";
+    final url = Uri.parse(urlStr);
     log("API URL = $url");
     
 
@@ -45,7 +46,8 @@ class OrdersCubit extends Cubit<OrdersState> {
   }
 
   deleteFromCart(int id) async {
-    final url = Uri.parse("http://10.0.2.2:5000/api/sign/deleteFromCart/$id");
+    String urlStr = "$baseUrl$deletefromcart/$id";
+    final url = Uri.parse(urlStr);
     log("API URL = $url");
 
     final result = await http.delete(url);

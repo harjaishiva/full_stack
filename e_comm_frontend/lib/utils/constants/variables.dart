@@ -6,3 +6,4 @@ String token = "token";
 String userId = "userId";
 String name = "name";
 String email = "email";
+String image = "image";

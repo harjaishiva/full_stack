@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:e_commerce_app/screens/api_urls/urls.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
 
@@ -12,7 +13,8 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   registerUser(
       BuildContext context, String name, String email, String pass) async {
-    final url = Uri.parse("http://10.0.2.2:5000/api/sign/signUp");
+        String urlStr = baseUrl+signup;
+    final url = Uri.parse(urlStr);
     log("API URL = $url");
     Map map = {"name": name, "email": email, "password": pass};
     log("API PARAMETERS : $map");

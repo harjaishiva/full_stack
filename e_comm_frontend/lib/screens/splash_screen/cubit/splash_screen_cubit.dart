@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:e_commerce_app/screens/api_urls/urls.dart';
 import 'package:e_commerce_app/utils/constants/methods.dart';
 import 'package:e_commerce_app/utils/constants/variables.dart';
 import "package:http/http.dart" as http;
@@ -12,7 +13,9 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
   SplashScreenCubit() : super(SplashScreenInitial());
 
   tokenVerification() async {
-    try{final url = Uri.parse("http://10.0.2.2:5000/api/sign/verifyToken");
+    try{
+      String urlStr = baseUrl+verifytoken;
+      final url = Uri.parse(urlStr);
     log("API URL = $url");
     final tok = SharedPreferencesClass.pref.getString(token);
     log("TOKEN = $tok");

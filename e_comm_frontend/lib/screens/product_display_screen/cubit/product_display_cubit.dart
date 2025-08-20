@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:e_commerce_app/screens/api_urls/urls.dart';
 import 'package:e_commerce_app/screens/product_display_screen/modal/product_display_modal.dart';
 import 'package:e_commerce_app/utils/constants/methods.dart';
 import 'package:e_commerce_app/utils/constants/variables.dart';
@@ -15,7 +16,8 @@ class ProductDisplayCubit extends Cubit<ProductDisplayState> {
   ProductDisplayModal? _model;
 
   getData(int id) async {
-    final url = Uri.parse("http://10.0.2.2:5000/api/sign/getOneItem/$id");
+    String urlStr = "$baseUrl$getoneitem/$id";
+    final url = Uri.parse(urlStr);
 
     log("API URL = $url");
 
@@ -50,7 +52,8 @@ class ProductDisplayCubit extends Cubit<ProductDisplayState> {
 
   addToCart(int itemId, String image, String category, int quantity, String price, String tprice,
       String title) async {
-    final url = Uri.parse("http://10.0.2.2:5000/api/sign/addToCart");
+        String urlStr = baseUrl+addtocart;
+    final url = Uri.parse(urlStr);
     log("API URL = $url");
 
     String userid = SharedPreferencesClass.pref.getString(userId) ?? "";

@@ -2,6 +2,7 @@ import 'package:e_commerce_app/screens/home_screen/cubit/home_screen_cubit.dart'
 import 'package:e_commerce_app/screens/home_screen/home_view.dart';
 import 'package:e_commerce_app/screens/orders_screen/cubit/orders_cubit.dart';
 import 'package:e_commerce_app/screens/orders_screen/orders_view.dart';
+import 'package:e_commerce_app/screens/profile_screen/cubit/profile_screen_cubit.dart';
 import 'package:e_commerce_app/screens/profile_screen/profile_view.dart';
 import 'package:e_commerce_app/utils/constants/variables.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ void _onItemTapped(int index , BuildContext context) {
         Navigator.push(context, MaterialPageRoute(builder:(context)=> BlocProvider(create:(_)=>OrdersCubit(),child:const OrdersScreen())));
       }
       case 2:{
-        Navigator.push(context, MaterialPageRoute(builder:(context)=> const ProfileScreen()));
+        Navigator.push(context, MaterialPageRoute(builder:(context)=> BlocProvider(create: (_)=>ProfileScreenCubit(),child : const ProfileScreen())));
       }
     }
   }

@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const mailer = require("nodemailer");
 const dotenv = require("dotenv").config();
 const logger = require("../logger.js");
+const path = require('path');
+const fs = require('fs');
 
 const transporter = mailer.createTransport({
     service: "gmail",
@@ -54,9 +56,10 @@ const signIn = asyncHandler(async (req, res) => {
         const user = {name:rows[0].name,email:rows[0].email};
         const secretKey = process.env.JWT_SECRET;
         const token = jwt.sign(user, secretKey, {expiresIn: '10h'});
+        const imagepath = path.join(process.cwd(),rows[0].image);
         res
         .status(200)
-        .json({ status: 0, message: "User authenticated", userId: rows[0].id , name: rows[0].name, email: rows[0].email, token:token});
+        .json({ status: 0, message: "User authenticated", userId: rows[0].id , name: rows[0].name, email: rows[0].email,image: rows[0].image, token:token});
       await db.execute(
         " INSERT INTO loginUser(email,token) VALUES(?, ?) ON DUPLICATE KEY UPDATE logged_in_at = CURRENT_TIMESTAMP",
         [email, token]
@@ -261,7 +264,6 @@ const getCart = asyncHandler(
     const id = req.params.id;
     if(!id){res.status(400).json({status:1,message:"Alll feilds are mandatory"});}
     const result = await db.query("SELECT * FROM cart WHERE user_id = ?",[id]);
-    console.log(`getcart ================ ${result}`);
     const [rows] = result;
 
     if(!rows){res.status(400).json({status:1,message:"No data found"});}
@@ -298,4 +300,30 @@ const deleteFromCart = asyncHandler(
     res.status(200).json({status:0,message:"Removed the order from cart"});
   }
 );
-module.exports = { signUp, signIn, getData, getOneData, tokenVerified, requestOtp, verifyOtp, updatePassword, addToCart, getCart, deleteFromCart};
+
+
+const uploadImage = asyncHandler(
+  async(req,res)=>{
+    const file = req.file;
+    const id = req.body.id;
+    if(!file || !id){res.status(400).json({status:1,message:"All feilds are mandatory"});}
+
+    const filepath = `/images/${file.filename}`;
+
+    const resul = await db.query('SELECT name FROM registerUser WHERE id = ?',[id]);
+
+    if(!resul){res.status(401).json({status:1,message:"User not found"});}
+
+    const result = await db.query('UPDATE registerUser SET image = ? WHERE id = ?',[filepath,id]);
+
+    if(!result){res.status(400).json({status:1,message:"error in uploading image",response: result});}
+
+    const imagePath = `http://10.0.2.2:5000/images/${req.file.filename}`;
+
+    if(fs.existsSync(imagePath)){console.log("Image Exists");}
+    else{console.log("image not exists");}
+
+    res.status(200).json({status:0,message:"Image uploaded successfully",path:imagePath});
+  }
+);
+module.exports = { signUp, signIn, getData, getOneData, tokenVerified, requestOtp, verifyOtp, updatePassword, addToCart, getCart, deleteFromCart, uploadImage};

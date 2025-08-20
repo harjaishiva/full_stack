@@ -4,15 +4,20 @@ const morgan = require('morgan');
 const logger = require('./logger');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT;
+
+app.use(cors());
 
 app.use(express.json());
 
 if (!fs.existsSync(path.join(process.cwd(), 'logs'))) {
   fs.mkdirSync(path.join(process.cwd(), 'logs'));
 }
+
+app.use("/images", express.static("images"));
 
 // Morgan logs each request
 app.use(morgan('combined', {

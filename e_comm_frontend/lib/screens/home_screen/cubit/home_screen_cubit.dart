@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:e_commerce_app/screens/api_urls/urls.dart';
 import 'package:e_commerce_app/screens/home_screen/model/model_class.dart';
 import 'package:e_commerce_app/utils/constants/methods.dart';
 import 'package:e_commerce_app/utils/constants/variables.dart';
@@ -15,7 +16,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   HomeScreenCubit() : super(HomeScreenInitial());
 
   getData(BuildContext context) async{
-    var url = Uri.parse("http://10.0.2.2:5000/api/sign/getData");
+    String urlStr = baseUrl+getdata;
+    var url = Uri.parse(urlStr);
     log("API URL = $url");
 
     String tok = SharedPreferencesClass.pref.getString(token) ?? "";

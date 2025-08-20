@@ -201,7 +201,7 @@ class _ProductDisplayScreenState extends State<ProductDisplayScreen> {
 
   Widget bottomSheet(ProductDisplayState state) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: MediaQuery.of(context).size.height * 0.45,
       color: const Color.fromARGB(255, 241, 244, 243),
       child: Column(
         children: [

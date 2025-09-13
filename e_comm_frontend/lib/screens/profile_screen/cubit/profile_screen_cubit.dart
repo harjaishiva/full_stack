@@ -36,7 +36,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenState> {
 
    var response = await request.send();
 
-   if(response.statusCode == 200){
+   if(response.statusCode == 200){ 
     var respstr = await response.stream.bytesToString();
     var jsonres = jsonDecode(respstr);
     log("response == $jsonres");

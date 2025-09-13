@@ -1,48 +1,38 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
-const morgan = require('morgan');
-const logger = require('./logger');
-const fs = require('fs');
-const path = require('path');
-const cors = require('cors');
+const morgan = require("morgan");
+const logger = require("./logger");
+const fs = require("fs");
+const path = require("path");
+const cors = require("cors");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = require('./swagger/swaggerjsdoc.js');
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
-
 app.use(express.json());
 
-if (!fs.existsSync(path.join(process.cwd(), 'logs'))) {
-  fs.mkdirSync(path.join(process.cwd(), 'logs'));
-}
+app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use("/images", express.static("images"));
 
-// Morgan logs each request
-app.use(morgan('combined', {
-  stream: fs.createWriteStream(path.join(process.cwd(), 'logs', 'access.log'), { flags: 'a' })
-}));
+app.use("/api/auth", require("./routes/auth_routes.js"));
+app.use("/api/item", require("./routes/item_routes.js"));
+app.use("/api/cart", require("./routes/cart_routes.js"));
+app.use("/api/user", require("./routes/extraa_routes.js"));
 
-// Also log to console via winston
-app.use(morgan('dev'));
-
-app.use((err, req, res, next) => {
-  logger.error({
-    message: 'Unhandled error',
-    error: err.message,
-    stack: err.stack,
-    url: req.originalUrl,
-    method: req.method,
-    body: req.body,
-    query: req.query,
-    headers: req.headers
-  });
-  res.status(500).json({ error: 'Internal Server Error' });
+app.listen(port, () => {
+  console.log(`✅ Server running at http://localhost:${port}`);
+  console.log(`Swagger : http://localhost:${port}/api-docs`);
 });
 
-app.use("/api/sign",require("./routes/sign_in_and_up_routes.js"));
+process.on("unhandledRejection", (err) => {
+  logger.error(`Unhandled Rejection: ${err.message}`);
+});
 
-app.listen(port,()=>{
-    console.log(`Server is connected at port ${port}`);
+process.on("uncaughtException", (err) => {
+  logger.error(`Uncaught Exception: ${err.message}`);
+  process.exit(1);
 });

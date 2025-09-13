@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/screens/home_screen/cubit/home_screen_cubit.dart';
-import 'package:e_commerce_app/screens/home_screen/model/model_class.dart';
 import 'package:e_commerce_app/screens/product_display_screen/cubit/product_display_cubit.dart';
 import 'package:e_commerce_app/screens/product_display_screen/product_display_view.dart';
 import 'package:e_commerce_app/utils/bottom_navigation_bar/bottom_navigation_bar.dart';
@@ -15,21 +14,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> categories = ['All', 'Clothing', 'Jewelery', 'Electronics'];
-  List<String> subCategories = ['All', 'Men', 'Women'];
-  List<bool> catType = [true, false, false, false, false];
-  List<bool> subCatType = [true, false, false];
-  List<GetData> filteredList = [];
-  List<GetData> filteredSubList = [];
-  List<GetData> filteredFinalList = [];
-  bool subcat = true;
   final int screenIndex = 0;
 
   @override
   void initState() {
     super.initState();
     context.read<HomeScreenCubit>().getData(context);
-    subcat = true;
   }
 
   @override

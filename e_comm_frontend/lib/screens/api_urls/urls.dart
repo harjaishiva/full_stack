@@ -1,4 +1,8 @@
+
+//------------------- FLUTTER WEB -------------------
 // const baseUrl = 'http://localhost:5000/api/sign/';
+
+//--------------------- Android ---------------------
 const baseUrl = 'http://10.0.2.2:5000/api/sign/';
 
 const verifytoken = 'verifyToken';
